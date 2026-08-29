@@ -98,11 +98,10 @@ else:
                 st.success("Admission Document tayar hai!")
                 st.download_button(label="📥 Download Admission File (.txt)", data=doc_content, file_name=f"Admission_{s_name.replace(' ', '_')}.txt", mime="text/plain")
 
-    # --- 2. CHARACTER CERTIFICATE (MODIFIED FOR EXACT LAYOUT) ---
+    # --- 2. CHARACTER CERTIFICATE (ADDED PREPARED BY OPTION) ---
     elif page == "🏅 Character Certificate":
         st.markdown("<h3 style='color: #16a085;'>🏅 CHARACTER CERTIFICATE GENERATOR</h3>", unsafe_allow_html=True)
         
-        # Inputs matching the certificate image fields exactly
         colA, colB = st.columns(2)
         with colA:
             roll_no = st.text_input("Roll No.", value="510622")
@@ -120,20 +119,13 @@ else:
             games = st.text_input("8. Games Played at School", value="YES")
             
         cert_date = st.text_input("Dated", value="29-07-2024")
+        prepared_by_name = st.text_input("Prepared By (Naam likhein ya khali chorr dein line ke liye)", value="")
 
-        # HTML and CSS template mimicking the premium photo layout
+        # Dynamic name fallback for Prepared By field
+        prepared_text = prepared_by_name if prepared_by_name.strip() != "" else "____________________"
+
         certificate_html = f"""
-        <div style="
-            background: white; 
-            padding: 30px; 
-            border: 15px double #784212; 
-            border-radius: 4px;
-            font-family: 'Arial', sans-serif; 
-            color: #1c2833;
-            line-height: 1.6;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        ">
-            <!-- Top Header Meta -->
+        <div style="background: white; padding: 30px; border: 15px double #784212; border-radius: 4px; font-family: 'Arial', sans-serif; color: #1c2833; line-height: 1.6; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
             <table style="width: 100%; font-size: 13px; border: none; font-weight: bold; margin-bottom: 10px;">
                 <tr>
                     <td style="text-align: left; border: none;">Roll No. {roll_no}</td>
@@ -141,37 +133,28 @@ else:
                 </tr>
             </table>
 
-            
             <div style="text-align: center; margin-bottom: 5px;">
                 <h1 style="margin: 0; font-size: 26px; color: #1b2631; font-family: 'Times New Roman', serif; font-weight: bold; letter-spacing: 1px;">GOVT. HIGH SCHOOL 24 J.B.</h1>
                 <p style="margin: 2px 0 15px 0; font-size: 14px; font-weight: bold; color: #566573;">District Faisalabad.</p>
                 <div style="width: 80%; height: 1px; background: linear-gradient(to right, transparent, #784212, transparent); margin: 0 auto 15px auto;"></div>
             </div>
 
-            <!-- Header Badge Graphic Style -->
             <div style="text-align: center; margin-bottom: 25px;">
-                <span style="
-                    background-color: #1b2631; 
-                    color: white; 
-                    padding: 8px 30px; 
-                    font-size: 16px; 
-                    font-weight: bold; 
-                    letter-spacing: 2px;
-                    border-radius: 2px;
-                    display: inline-block;
-                ">CHARACTER CERTIFICATE</span>
+                <span style="background-color: #1b2631; color: white; padding: 8px 30px; font-size: 16px; font-weight: bold; letter-spacing: 2px; border-radius: 2px; display: inline-block;">CHARACTER CERTIFICATE</span>
             </div>
 
-            <!-- Introductory tagline -->
             <div style="text-align: center; font-style: italic; font-size: 14px; margin-bottom: 20px; font-weight: bold; color: #2c3e50;">
                 ——— This is to Certify that: ———
             </div>
 
-            <!-- Structured fields info grid layout -->
             <table style="width: 100%; font-size: 14px; border-collapse: collapse; border: none;">
-                <tr style="border: none;"><td style="width: 35%; font-weight: bold; padding: 6px 0; border: none;">1. Name of Candidate</td><td style="width: 3%; font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-style: italic; font-weight: bold; font-size: 15px; padding: 6px 0;">{c_name}</td></tr>
+                <tr style="border: none;"><td style="width: 35%; font-weight: bold; padding: 6px 0; border: none;">1. Name of Candidate</td><td style="width: 3%; font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-style: italic; font-weight: bold; font-size: 15px; padding: 6px 0; color: #1f3a52;">{c_name}</td></tr>
                 <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">2. Father's Name</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0;">{f_name}</td></tr>
                 <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">3. Residence</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0;">{residence}</td></tr>
                 <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">4. Examination Passed</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0; font-weight: bold;">{exam_passed}</td></tr>
             </table>
             
+            <table style="width: 100%; font-size: 14px; border-collapse: collapse; border: none;">
+                <tr style="border: none;">
+                    <td style="width: 35%; font-weight: bold; padding: 6px 0; border: none;">5. Marks Obtained</td>
+                    <td style="width: 3%; font-weight: bold; border: none;">:</td>
