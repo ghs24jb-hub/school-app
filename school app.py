@@ -98,7 +98,7 @@ else:
                 st.success("Admission Document tayar hai!")
                 st.download_button(label="📥 Download Admission File (.txt)", data=doc_content, file_name=f"Admission_{s_name.replace(' ', '_')}.txt", mime="text/plain")
 
-    # --- 2. CHARACTER CERTIFICATE (ADDED PREPARED BY OPTION) ---
+    # --- 2. CHARACTER CERTIFICATE (FIXED & SECURE LAYOUT) ---
     elif page == "🏅 Character Certificate":
         st.markdown("<h3 style='color: #16a085;'>🏅 CHARACTER CERTIFICATE GENERATOR</h3>", unsafe_allow_html=True)
         
@@ -119,17 +119,17 @@ else:
             games = st.text_input("8. Games Played at School", value="YES")
             
         cert_date = st.text_input("Dated", value="29-07-2024")
-        prepared_by_name = st.text_input("Prepared By (Naam likhein ya khali chorr dein line ke liye)", value="")
+        prepared_by_name = st.text_input("Prepared By (Naam likhein ya khali chorr dein)", value="")
 
-        # Dynamic name fallback for Prepared By field
         prepared_text = prepared_by_name if prepared_by_name.strip() != "" else "____________________"
 
-        certificate_html = f"""
+        # Standard non-f-string to guarantee 100% zero syntax parser crashes
+        certificate_html = """
         <div style="background: white; padding: 30px; border: 15px double #784212; border-radius: 4px; font-family: 'Arial', sans-serif; color: #1c2833; line-height: 1.6; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
             <table style="width: 100%; font-size: 13px; border: none; font-weight: bold; margin-bottom: 10px;">
                 <tr>
-                    <td style="text-align: left; border: none;">Roll No. {roll_no}</td>
-                    <td style="text-align: right; border: none;">Regd. No. {regd_no}</td>
+                    <td style="text-align: left; border: none;">Roll No. [ROLL]</td>
+                    <td style="text-align: right; border: none;">Regd. No. [REGD]</td>
                 </tr>
             </table>
 
@@ -148,10 +148,10 @@ else:
             </div>
 
             <table style="width: 100%; font-size: 14px; border-collapse: collapse; border: none;">
-                <tr style="border: none;"><td style="width: 35%; font-weight: bold; padding: 6px 0; border: none;">1. Name of Candidate</td><td style="width: 3%; font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-style: italic; font-weight: bold; font-size: 15px; padding: 6px 0; color: #1f3a52;">{c_name}</td></tr>
-                <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">2. Father's Name</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0;">{f_name}</td></tr>
-                <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">3. Residence</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0;">{residence}</td></tr>
-                <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">4. Examination Passed</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0; font-weight: bold;">{exam_passed}</td></tr>
+                <tr style="border: none;"><td style="width: 35%; font-weight: bold; padding: 6px 0; border: none;">1. Name of Candidate</td><td style="width: 3%; font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-style: italic; font-weight: bold; font-size: 15px; padding: 6px 0; color: #1f3a52;">[NAME]</td></tr>
+                <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">2. Father's Name</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0;">[FATHER]</td></tr>
+                <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">3. Residence</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0;">[RESIDENCE]</td></tr>
+                <tr style="border: none;"><td style="font-weight: bold; padding: 6px 0; border: none;">4. Examination Passed</td><td style="font-weight: bold; border: none;">:</td><td style="border-bottom: 1px solid #bdc3c7; font-size: 14px; padding: 6px 0; font-weight: bold;">[EXAM]</td></tr>
             </table>
             
             <table style="width: 100%; font-size: 14px; border-collapse: collapse; border: none;">
