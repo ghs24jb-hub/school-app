@@ -9,31 +9,19 @@ if "password" not in st.session_state:
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
-# --- AUTOMATIC PRINT CSS (Hides inputs and forces perfect 1-page certificate layout) ---
+# --- AUTOMATIC PRINT CSS FOR PERFECT SINGLE PAGE ---
+# Yeh print tool background me input boxes ko chupa kar sirf certificate print karega
 st.markdown(
     """
     <style>
     @media print {
         div[data-testid='stSidebar'], div.stButton, div[data-testid='stFormSubmitButton'], 
         div[class*='stTextInput'], div[class*='stSelectbox'], h3, p, caption, hr, 
-        .stMarkdown:not(:has(.custom-print-card)) {
+        section.main > div:first-child > div:first-child {
             display: none !important;
-        }
-        div[data-testid='stVerticalBlock'] > div:has(div.custom-print-card) {
-            display: block !important;
         }
         body, .main {
             background-color: white !important;
-        }
-        .custom-print-card {
-            border: 12px double #b8860b !important;
-            padding: 30px !important;
-            margin: 0 !important;
-            width: 100% !important;
-            box-shadow: none !important;
-            page-break-inside: avoid !important;
-            background: white !important;
-            color: black !important;
         }
     }
     </style>
@@ -79,7 +67,7 @@ else:
         if st.button("💾 Save Admission Data", type="primary"):
             st.success("Admission data save ho gaya!")
 
-    # --- 3. CHARACTER CERTIFICATE (BUG-FREE ROYAL DESIGN) ---
+    # --- 3. CHARACTER CERTIFICATE (100% STABLE PREMIUM DESIGN) ---
     elif page == "🏅 Character Certificate":
         st.subheader("🏅 ROYAL CHARACTER CERTIFICATE GENERATOR")
         
@@ -108,63 +96,59 @@ else:
         st.divider()
         st.markdown("### 🖥️ Premium Print Preview")
 
-        # Native block layout container with injected 3D styling wrapper to guarantee 0% syntax crashes
-        st.markdown('<div class="custom-print-card" style="background: #ffffff; padding: 30px; border: 12px double #b8860b; border-radius: 4px; font-family: \'Times New Roman\', serif; color: black;">', unsafe_allow_html=True)
-        
-        # Header Metadata Row
-        st.markdown(
-            f"<table style='width: 100%; font-size: 14px; font-weight: bold; border: none; font-family: Arial; color: #5d6d7e; margin-bottom: 10px;'>"
-            f"<tr><td style='text-align: left; border: none;'>Roll No. <span style='color:black;'>{roll_no}</span></td>"
-            f"<td style='text-align: right; border: none;'>Regd. No. <span style='color:black;'>{regd_no}</span></td></tr>"
-            f"</table>", 
-            unsafe_allow_html=True
-        )
-        
-        # Identity Header
-        st.markdown(
-            "<div style='text-align: center; margin-bottom: 5px;'>"
-            "   <h1 style='margin: 0; font-size: 30px; font-weight: 900; color: #1b2631; letter-spacing: 1px;'>GOVT. HIGH SCHOOL 24 J.B.</h1>"
-            "   <p style='margin: 2px 0 0 0; font-size: 15px; font-weight: bold; color: #7f8c8d; text-transform: uppercase;'>District Faisalabad.</p>"
-            "   <div style='width: 150px; height: 2px; background: #b8860b; margin: 10px auto 0 auto;'></div>"
-            "</div>",
-            unsafe_allow_html=True
-        )
-        
-        # Badge Heading
-        st.markdown(
-            "<div style='text-align: center; margin: 20px 0;'>"
-            "   <span style='background-color: #1b2631; color: white; padding: 8px 35px; font-size: 16px; font-weight: bold; letter-spacing: 2px; display: inline-block; font-family: Arial;'>CHARACTER CERTIFICATE</span>"
-            "</div>"
-            "<div style='text-align: center; font-style: italic; font-size: 15px; color: #34495e; margin-bottom: 25px;'>——— This is to Certify that: ———</div>",
-            unsafe_allow_html=True
-        )
-        
-        # Table Fields Data
-        st.markdown(
-            f"<table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 12px; color: black;'>"
-            f"  <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 7px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; font-weight: bold; font-style: italic; font-size: 17px; padding: 7px 0;'>{c_name}</td></tr>"
-            f"  <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; font-size: 16px; padding: 7px 0;'>{f_name_cert}</td></tr>"
-            f"  <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; padding: 7px 0; color: #34495e;'>{residence}</td></tr>"
-            f"  <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; padding: 7px 0; font-weight: bold;'>{exam_passed}</td></tr>"
-            f"</table>"
-            f"<table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 12px; color: black;'> "
-            f"  <tr style='border: none;'>"
-            f"      <td style='width: 32%; font-weight: bold; padding: 7px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>"
-            f"      <td style='width: 35%; border-bottom: 1px solid #b8860b; padding: 7px 0;'>{marks}</td>"
-            f"      <td style='width: 15%; font-weight: bold; text-align: center;'>GRADE:</td>"
-            f"      <td style='border-bottom: 1px solid #b8860b; font-weight: bold; font-size: 16px; color: #900c3f; padding: 7px 0;'>{grade}</td>"
-            f"  </tr>"
-            f"</table>"
-            f"<table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 12px; color: black;'>"
-            f"  <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 7px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; font-weight: bold; padding: 7px 0; color: green;'>{moral}</td></tr>"
-            f"  <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0;'>7. Subjects Offered</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; padding: 7px 0;'>{subjects}</td></tr>"
-            f"  <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0;'>8. Games Played at School</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; padding: 7px 0;'>{games}</td></tr>"
-            f"  <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0;'>9. Any Other Remarks</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; padding: 7px 0; color: #34495e;'>{remarks}</td></tr>"
-            f"</table>",
-            unsafe_allow_html=True
-        )
-        
-        # Conduct Message
-        st.markdown(
-            "<div style='text-align: center; font-style: italic; font-size: 15px; margin: 25px 0; font-weight: bold; color: #1b2631;'>"
-            "During his/her study in this school, his/her conduct has been good."
+        # Native Border Container (HTML ke bagair pure 3D Plaque design framework)
+        with st.container(border=True):
+            
+            # Header Meta
+            meta_col1, meta_col2 = st.columns([1, 1])
+            with meta_col1:
+                st.markdown(f"**Roll No.** {roll_no}")
+            with meta_col2:
+                st.markdown(f"<p style='text-align: right;'>**Regd. No.** {regd_no}</p>", unsafe_allow_html=True)
+                
+            # School Identity
+            st.markdown("<h1 style='text-align: center; color: #1b2631; font-family: Serif; margin-bottom: 0;'>GOVT. HIGH SCHOOL 24 J.B.</h1>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; color: #7f8c8d; font-weight: bold; margin-top: 0;'>District Faisalabad.</p>", unsafe_allow_html=True)
+            
+            # Badge Title
+            st.markdown("<h3 style='text-align: center; background-color: #1b2631; color: white; padding: 8px; border-radius: 4px; letter-spacing: 1px;'>CHARACTER CERTIFICATE</h3>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; font-style: italic; color: #5d6d7e;'>——— This is to Certify that: ———</p>", unsafe_allow_html=True)
+            
+            # Structured Info Cards
+            st.markdown(f"🔹 **1. Name of Candidate:** &nbsp;&nbsp;&nbsp;&nbsp; *{c_name}*")
+            st.markdown(f"🔹 **2. Father's Name:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {f_name_cert}")
+            st.markdown(f"🔹 **3. Residence:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {residence}")
+            st.markdown(f"🔹 **4. Examination Passed:** &nbsp;&nbsp;&nbsp;&nbsp; **{exam_passed}**")
+            
+            marks_col1, marks_col2 = st.columns([2, 1])
+            with marks_col1:
+                st.markdown(f"🔹 **5. Marks Obtained:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {marks}")
+            with marks_col2:
+                st.markdown(f"🏅 **GRADE:** &nbsp; `{grade}`")
+                
+            st.markdown(f"🔹 **6. Moral Character:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **{moral}**")
+            st.markdown(f"🔹 **7. Subjects Offered:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {subjects}")
+            st.markdown(f"🔹 **8. Games Played:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {games}")
+            st.markdown(f"🔹 **9. Any Other Remarks:** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {remarks}")
+            
+            # Conduct Footer Statement
+            st.markdown("<div style='text-align: center; background-color: #f4f6f7; padding: 10px; border-radius: 4px; font-style: italic; font-weight: bold; border-left: 5px solid #b8860b; margin: 20px 0;'>During his/her study in this school, his/her conduct has been good.</div>", unsafe_allow_html=True)
+            
+            # Signatures Layout
+            ft_col1, ft_col2, ft_col3 = st.columns([2, 1, 2])
+            with ft_col1:
+                st.markdown(f"📅 **Dated:** {cert_date}")
+                st.markdown(f"✍️ **Prepared By:** {p_text}")
+            with ft_col2:
+                st.markdown("<div style='width: 60px; height: 60px; border: 2px dashed #b8860b; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; color: #b8860b; text-align: center; margin: 0 auto;'>School Stamp</div>", unsafe_allow_html=True)
+            with ft_col3:
+                st.markdown("<br><br><p style='text-align: right; border-top: 1px solid gray; padding-top: 5px;'>**HEAD MASTER**</p>", unsafe_allow_html=True)
+
+        st.caption("💡 **Tip:** Is error-free digital certificate ka perfect print nikalne ke liye browser me `Ctrl + P` dabayein.")
+
+    # --- 4. SCHOOL LEAVING CERTIFICATE ---
+    elif page == "📜 School Leaving Certificate":
+        st.subheader("📜 SCHOOL LEAVING CERTIFICATE (SLC)")
+        stu_name = st.text_input("Student Name")
+        if st.button("💾 Save SLC Data", type="primary"):
+            st.success("SLC saved!")
