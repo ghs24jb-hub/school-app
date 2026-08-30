@@ -117,7 +117,7 @@ else:
 
         st.divider()
         
-        # Bada Print Button
+        # Bada Interactive Print Button (Screen par dikhega, print me hide ho jayega)
         st.markdown(
             '<div class="print-action-trigger" style="margin-bottom: 25px;">'
             '   <button onclick="window.print()" style="'
@@ -130,7 +130,7 @@ else:
             unsafe_allow_html=True
         )
 
-        # 100% Safe template without + and bracket splitting bugs
+        # Secure layout structure with table-row styling for lines extending to the end
         preview_template = """
         <div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black; overflow: hidden;'>
             <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>
@@ -147,26 +147,26 @@ else:
             </div>
             <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 25px; color: black;'>——— This is to Certify that: ———</div>
             
-            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>
-                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 16px; padding: 6px 0;'>{2}</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>{3}</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{4}</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>{5}</td></tr>
+            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 5px; color: black;'>
+                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 8px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 16px; padding: 8px 0;'>{2}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 8px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 8px 0;'>{3}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 8px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 8px 0;'>{4}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 8px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 8px 0;'>{5}</td></tr>
             </table>
             
-            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>
+            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 5px; color: black;'>
                 <tr style='border: none;'>
-                    <td style='width: 32%; font-weight: bold; padding: 6px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>
-                    <td style='width: 32%; border-bottom: 1px solid black; padding: 6px 0;'>{6}</td>
+                    <td style='width: 32%; font-weight: bold; padding: 8px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>
+                    <td style='width: 32%; border-bottom: 1px solid black; padding: 8px 0;'>{6}</td>
                     <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>
-                    <td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>{7}</td>
+                    <td style='border-bottom: 1px solid black; font-weight: bold; padding: 8px 0;'>{7}</td>
                 </tr>
             </table>
             
             <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 25px; color: black;'>
-                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0; color: green;'>{8}</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>7. Subjects Offered</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{9}</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>8. Games Played at School</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{10}</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>9. Any Other Remarks</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{11}</td></tr>
+                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 8px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 8px 0; color: green;'>{8}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 8px 0;'>7. Subjects Offered</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 8px 0;'>{9}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 8px 0;'>8. Games Played at School</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 8px 0;'>{10}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 8px 0;'>9. Any Other Remarks</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 8px 0;'>{11}</td></tr>
             </table>
             
