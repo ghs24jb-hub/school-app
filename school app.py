@@ -13,14 +13,11 @@ if "logged_in" not in st.session_state:
 st.markdown(
     """
     <style>
-    /* Screen aur print dono me se right side ki extra vertical lines khatam karne ke liye */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stMarkdownContainer"] {
         overflow-x: hidden !important;
         overflow-y: auto !important;
     }
-    
     @media print {
-        /* Print ke waqt sidebar, input boxes, headers aur hints ko hide karne ke liye */
         [data-testid="stSidebar"], .stHeader, footer, .stDeployButton, 
         div.stButton:not(.print-btn-wrap), div[class*="stTextInput"], div[class*="stSelectbox"], 
         h2, h3, .stMarkdown:not(:has(.printable-certificate)), .print-action-trigger {
@@ -34,7 +31,6 @@ st.markdown(
             padding: 0 !important;
             margin: 0 !important;
         }
-        /* Certificate card container padding aur boundary constraints */
         .printable-certificate {
             display: block !important;
             visibility: visible !important;
@@ -94,11 +90,10 @@ else:
         if st.button("💾 Save Admission Data", type="primary"):
             st.success("Admission data save ho gaya!")
 
-    # --- 3. CHARACTER CERTIFICATE (EXACT SPACING & UNDERLINES) ---
+    # --- 3. CHARACTER CERTIFICATE ---
     elif page == "🏅 Character Certificate":
         st.subheader("🏅 ROYAL CHARACTER CERTIFICATE GENERATOR")
         
-        # Data Entry Fields
         colA, colB = st.columns(2)
         with colA:
             roll_no = st.text_input("Roll No.", value="510622")
@@ -122,7 +117,7 @@ else:
 
         st.divider()
         
-        # Bada Interactive Print Button
+        # Bada Print Button
         st.markdown(
             '<div class="print-action-trigger" style="margin-bottom: 25px;">'
             '   <button onclick="window.print()" style="'
@@ -135,39 +130,43 @@ else:
             unsafe_allow_html=True
         )
 
-        # VIP Design Layout with text-only Underlines that run till the end of the container
-        preview_text = (
-            "<div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black; overflow: hidden;'>\n"
-            "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>\n"
-            "       <span style='float: left;'>Roll No. " + roll_no + "</span>\n"
-            "       <span style='float: right;'>Regd. No. " + regd_no + "</span>\n"
-            "   </div>\n"
-            "   <div style='text-align: center; margin-bottom: 20px;'>\n"
-            "       <h1 style='margin: 0; font-size: 26px; font-weight: bold; color: black;'>GOVT. HIGH SCHOOL 24 J.B.</h1>\n"
-            "       <p style='margin: 2px 0 0 0; font-size: 13px; color: gray;'>District Faisalabad.</p>\n"
-            "       <div style='width: 120px; height: 2px; background: #b8860b; margin: 8px auto 0 auto;'></div>\n"
-            "   </div>\n"
-            "   <div style='text-align: center; margin: 15px 0;'>\n"
-            "       <span style='border: 2px solid black; padding: 6px 30px; font-size: 15px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>\n"
-            "   </div>\n"
-            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 25px; color: black;'>——— This is to Certify that: ———</div>\n"
+        # 100% Safe template without + and bracket splitting bugs
+        preview_template = """
+        <div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black; overflow: hidden;'>
+            <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>
+                <span style='float: left;'>Roll No. {0}</span>
+                <span style='float: right;'>Regd. No. {1}</span>
+            </div>
+            <div style='text-align: center; margin-bottom: 20px;'>
+                <h1 style='margin: 0; font-size: 26px; font-weight: bold; color: black;'>GOVT. HIGH SCHOOL 24 J.B.</h1>
+                <p style='margin: 2px 0 0 0; font-size: 13px; color: gray;'>District Faisalabad.</p>
+                <div style='width: 120px; height: 2px; background: #b8860b; margin: 8px auto 0 auto;'></div>
+            </div>
+            <div style='text-align: center; margin: 15px 0;'>
+                <span style='border: 2px solid black; padding: 6px 30px; font-size: 15px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>
+            </div>
+            <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 25px; color: black;'>——— This is to Certify that: ———</div>
             
-            # 1 to 9 points data table format for perfect underlining that spans from value to end of row
-            "   <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>\n"
-            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 16px; padding: 6px 0;'>" + c_name + "</td></tr>\n"
-            "       <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>" + f_name_cert + "</td></tr>\n"
-            "       <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>" + residence + "</td></tr>\n"
-            "       <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>" + exam_passed + "</td></tr>\n"
-            "   </table>\n"
+            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>
+                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 16px; padding: 6px 0;'>{2}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>{3}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{4}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>{5}</td></tr>
+            </table>
             
-            "   <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>\n"
-            "       <tr style='border: none;'>"
-            "           <td style='width: 32%; font-weight: bold; padding: 6px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>"
-            "           <td style='width: 32%; border-bottom: 1px solid black; padding: 6px 0;'>" + marks + "</td>"
-            "           <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>"
-            "           <td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>" + grade + "</td>"
-            "       </tr>"
-            "   </table>\n"
+            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>
+                <tr style='border: none;'>
+                    <td style='width: 32%; font-weight: bold; padding: 6px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>
+                    <td style='width: 32%; border-bottom: 1px solid black; padding: 6px 0;'>{6}</td>
+                    <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>
+                    <td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>{7}</td>
+                </tr>
+            </table>
             
-            "   <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 25px; color: black;'>\n"
-            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0; color: green;'>" + moral + "</td></tr>\n"
+            <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 25px; color: black;'>
+                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0; color: green;'>{8}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>7. Subjects Offered</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{9}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>8. Games Played at School</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{10}</td></tr>
+                <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>9. Any Other Remarks</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>{11}</td></tr>
+            </table>
+            
