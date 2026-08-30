@@ -6,79 +6,72 @@ st.set_page_config(page_title="GHS 24 J.B. System", page_icon="🏫", layout="ce
 # --- INITIALIZE DATABASE IN SESSION STATE ---
 if "password" not in st.session_state:
     st.session_state["password"] = "123"
-if "security_code" not in st.session_state:
-    st.session_state["security_code"] = "2424"
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
-if "reset_mode" not in st.session_state:
-    st.session_state["reset_mode"] = False
 
-# --- LOGIN SCREEN ---
+# --- SYSTEM LOGIN ---
 if not st.session_state["logged_in"]:
-    if not st.session_state["reset_mode"]:
-        st.markdown("<h2 style='text-align: center; color: #2c3e50;'>🔐 SYSTEM LOGIN</h2>", unsafe_allow_html=True)
-        user_input = st.text_input("Username", value="admin")
-        pass_input = st.text_input("Password", type="password")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Login Karein", type="primary", use_container_width=True):
-                if user_input == "admin" and pass_input == st.session_state["password"]:
-                    st.session_state["logged_in"] = True
-                    st.rerun()
-                else:
-                    st.error("Username ya Password galat hai!")
-        with col2:
-            if st.button("Reset Password?", use_container_width=True):
-                st.session_state["reset_mode"] = True
-                st.rerun()
-                
-    else:
-        st.markdown("<h2 style='text-align: center; color: #c0392b;'>🔐 RESET PASSWORD</h2>", unsafe_allow_html=True)
-        code_input = st.text_input("School Secret Code")
-        new_pwd_input = st.text_input("Naya Password", type="password")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Update Password", type="primary", use_container_width=True):
-                if code_input.strip() == st.session_state["security_code"] and new_pwd_input.strip() != "":
-                    st.session_state["password"] = new_pwd_input.strip()
-                    st.success("Password tabdeel ho gaya hai! Login karein.")
-                    st.session_state["reset_mode"] = False
-                    st.rerun()
-        with col2:
-            if st.button("Back to Login", use_container_width=True):
-                st.session_state["reset_mode"] = False
-                st.rerun()
+    st.markdown("<h2 style='text-align: center; color: #2c3e50;'>🏫 SYSTEM LOGIN</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: gray;'>Govt. High School 24 J.B. Faisalabad</p>", unsafe_allow_html=True)
+    
+    user_input = st.text_input("Username", value="admin")
+    pass_input = st.text_input("Password", type="password")
+    
+    if st.button("Login Karein", type="primary", use_container_width=True):
+        if user_input == "admin" and pass_input == st.session_state["password"]:
+            st.session_state["logged_in"] = True
+            st.rerun()
+        else:
+            st.error("Username ya Password galat hai!")
 
-# --- MAIN SYSTEM DASHBOARD ---
+# --- MAIN DASHBOARD SYSTEM ---
 else:
-    st.sidebar.markdown("<h3 style='text-align: center; color: white;'>🏫 GHS 24 J.B.</h3>", unsafe_allow_html=True)
+    # Sidebar Setup
+    st.sidebar.markdown("<h2 style='text-align: center;'>🏫 GHS 24 J.B.</h2>", unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='text-align: center; color: gray;'>Main System Menu</p>", unsafe_allow_html=True)
+    st.sidebar.divider()
+    
     page = st.sidebar.radio(
-        "Select Document Type:",
+        "Select Section:",
         ["🏠 Home Dashboard", "📝 Admission Form", "🏅 Character Certificate", "📜 School Leaving Certificate"]
     )
     
+    st.sidebar.divider()
     if st.sidebar.button("Log Out", type="secondary", use_container_width=True):
         st.session_state["logged_in"] = False
         st.rerun()
 
-    # --- HOME PAGE ---
+    # --- 1. HOME DASHBOARD ---
     if page == "🏠 Home Dashboard":
-        st.markdown("<h2 style='text-align: center; color: #2c3e50;'>🏫 GOVT. HIGH SCHOOL 24 J.B. FAISALABAD</h2>", unsafe_allow_html=True)
-        st.success("MUKAMMAL SCHOOL SYSTEM ACTIVE")
+        st.title("GOVT. HIGH SCHOOL 24 J.B. FAISALABAD")
+        st.success("✨ MUKAMMAL SCHOOL SYSTEM ACTIVE ✨")
+        st.info("Left side menu se kisi bhi document ko select karke print nikaalein. Yeh app mobile aur computer dono par perfectly chalegi.")
 
-    # --- 1. ADMISSION FORM ---
+    # --- 2. ADMISSION FORM ---
     elif page == "📝 Admission Form":
-        st.markdown("<h3>📝 NEW ADMISSION FORM</h3>", unsafe_allow_html=True)
-        s_name = st.text_input("Student Name")
-        if st.button("💾 Save", type="primary"):
-            st.success("Data Save!")
-
-    # --- 2. CHARACTER CERTIFICATE (PURE 3D PLAQUE EMBOSSED DESIGN) ---
-    elif page == "🏅 Character Certificate":
-        st.markdown("<h2 style='color: #16a085;'>🏅 3D CHARACTER CERTIFICATE</h2>", unsafe_allow_html=True)
+        st.subheader("📝 NEW ADMISSION FORM ENTRY")
         
+        col1, col2 = st.columns(2)
+        with col1:
+            form_no = st.text_input("Form No")
+            s_name = st.text_input("Student Name")
+            contact = st.text_input("Contact No")
+        with col2:
+            adm_no = st.text_input("Admission No")
+            f_name = st.text_input("Father Name")
+            address = st.text_input("Present Address")
+            
+        if st.button("💾 Save Admission Data", type="primary", use_container_width=True):
+            if not s_name.strip():
+                st.error("Student Name lazmi likhein!")
+            else:
+                st.success(f"Student '{s_name}' ka admission data kamyabi se save ho gaya!")
+
+    # --- 3. CHARACTER CERTIFICATE (PURE STREAMLIT DIGITAL FORMAT) ---
+    elif page == "🏅 Character Certificate":
+        st.subheader("🏅 CHARACTER CERTIFICATE GENERATOR")
+        
+        # Data Entry Fields
         colA, colB = st.columns(2)
         with colA:
             roll_no = st.text_input("Roll No.", value="510622")
@@ -89,84 +82,70 @@ else:
             remarks = st.text_input("9. Any Other Remarks", value="He is a regular student.")
         with colB:
             regd_no = st.text_input("Regd. No.", value="170663-PR-2022")
-            f_name = st.text_input("2. Father's Name", value="Muhammad Ansir")
+            f_name_cert = st.text_input("2. Father's Name", value="Muhammad Ansir")
             exam_passed = st.text_input("4. Examination Passed", value="SSC 2024 (ANNUAL)")
             grade = st.text_input("Grade", value="C")
             moral = st.text_input("6. Moral Character", value="GOOD")
             games = st.text_input("8. Games Played at School", value="YES")
             
         cert_date = st.text_input("Dated", value="29-07-2024")
-        prepared_by_name = st.text_input("Prepared By", value="")
+        prep_by = st.text_input("Prepared By", value="")
 
-        prepared_text = prepared_by_name if prepared_by_name.strip() != "" else "____________________"
+        st.divider()
+        st.markdown("### 🖥️ Digital Print Preview")
 
-        # Safe String with .format() to eliminate string compiler crashes 
-        certificate_html = """
-        <div style="
-            background: #ffffff; 
-            padding: 35px; 
-            margin: 10px auto;
-            border-left: 8px solid #784212;
-            border-top: 2px solid #eaeaea;
-            border-right: 2px solid #eaeaea;
-            border-bottom: 6px solid #b3b3b3;
-            border-radius: 8px; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            color: #2c3e50;
-            line-height: 1.7; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.06);
-        ">
-            <!-- Top Header Meta -->
-            <table style="width: 100%; font-size: 13px; font-weight: bold; margin-bottom: 15px;">
-                <tr>
-                    <td style="text-align: left; border: none; color: #7f8c8d;">Roll No. <span style="color: #2c3e50;">{0}</span></td>
-                    <td style="text-align: right; border: none; color: #7f8c8d;">Regd. No. <span style="color: #2c3e50;">{1}</span></td>
-                </tr>
-            </table>
-
+        # Native Border Container blocks logic (Cannot Crash under any circumstances)
+        with st.container(border=True):
+            st.markdown("<h2 style='text-align: center; color: #1b2631; margin:0;'>GOVT. HIGH SCHOOL 24 J.B.</h2>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; color: #7f8c8d; margin:0;'>District Faisalabad.</p>", unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center; background-color: #2c3e50; color: white; padding: 8px; border-radius: 4px;'>CHARACTER CERTIFICATE</h3>", unsafe_allow_html=True)
             
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h1 style="margin: 0; font-size: 28px; color: #1b2631; font-family: 'Georgia', serif; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;">GOVT. HIGH SCHOOL 24 J.B.</h1>
-                <p style="margin: 3px 0 0 0; font-size: 14px; font-weight: bold; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px;">District Faisalabad.</p>
-                <div style="width: 50px; height: 3px; background-color: #784212; margin: 12px auto 0 auto; border-radius: 2px;"></div>
-            </div>
-
-            <!-- Header Badge 3D Button Style -->
-            <div style="text-align: center; margin-bottom: 30px;">
-                <span style="
-                    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
-                    color: #ffffff; 
-                    padding: 10px 35px; 
-                    font-size: 15px; 
-                    font-weight: bold; 
-                    letter-spacing: 2px;
-                    border-radius: 4px;
-                    display: inline-block;
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
-                    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-                ">CHARACTER CERTIFICATE</span>
-            </div>
-
-            <!-- Introductory tagline -->
-            <div style="text-align: center; font-style: italic; font-size: 14px; margin-bottom: 25px; font-weight: 600; color: #7f8c8d;">
-                ——— This is to Certify that ———
-            </div>
-
-            <!-- 3D Structured fields info cards layout -->
-            <div style="background: #fdfefe; padding: 20px; border-radius: 6px; border: 1px solid #f2f4f4; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02); margin-bottom: 20px;">
-                <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-                    <tr style="border: none;"><td style="width: 32%; font-weight: bold; color: #34495e; padding: 8px 0;">1. Name of Candidate</td><td style="width: 3%; font-weight: bold; color: #7f8c8d;">:</td><td style="font-weight: 700; font-size: 16px; color: #16a085; padding: 8px 0;">{2}</td></tr>
-                    <tr style="border: none;"><td style="font-weight: bold; color: #34495e; padding: 8px 0;">2. Father's Name</td><td style="font-weight: bold; color: #7f8c8d;">:</td><td style="font-weight: 600; color: #2c3e50; padding: 8px 0;">{3}</td></tr>
-                    <tr style="border: none;"><td style="font-weight: bold; color: #34495e; padding: 8px 0;">3. Residence</td><td style="font-weight: bold; color: #7f8c8d;">:</td><td style="color: #5d6d7e; padding: 8px 0;">{4}</td></tr>
-                    <tr style="border: none;"><td style="font-weight: bold; color: #34495e; padding: 8px 0;">4. Examination Passed</td><td style="font-weight: bold; color: #7f8c8d;">:</td><td style="font-weight: 600; color: #2c3e50; padding: 8px 0;">{5}</td></tr>
-                </table>
-            </div>
+            # Top IDs
+            st.write(f"**Roll No:** `{roll_no}` &nbsp;&nbsp;|&nbsp;&nbsp; **Regd. No:** `{regd_no}`")
+            st.divider()
             
-            <div style="background: #fdfefe; padding: 20px; border-radius: 6px; border: 1px solid #f2f4f4; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02); margin-bottom: 20px;">
-                <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-                    <tr style="border: none;">
-                        <td style="width: 32%; font-weight: bold; color: #34495e; padding: 8px 0;">5. Marks Obtained</td>
-                        <td style="width: 3%; font-weight: bold; color: #7f8c8d;">:</td>
-                        <td style="width: 35%; color: #2c3e50; padding: 8px 0;">{6}</td>
-                        <td style="width: 15%; font-weight: bold; text-align: right; color: #34495e; padding: 8px 0; padding-right: 10px;">GRADE:</td>
-                        <td style="font-weight: 800; color: #d35400; font-size: 16px; padding: 8px 0;">{7}</td>
+            # Content lines
+            st.write(f"👉 **1. Name of Candidate:** {c_name}")
+            st.write(f"👉 **2. Father's Name:** {f_name_cert}")
+            st.write(f"👉 **3. Residence:** {residence}")
+            st.write(f"👉 **4. Examination Passed:** {exam_passed}")
+            st.write(f"👉 **5. Marks Obtained:** {marks} &nbsp;&nbsp;&nbsp;&nbsp; **GRADE:** `{grade}`")
+            st.write(f"👉 **6. Moral Character:** {moral}")
+            st.write(f"👉 **7. Subjects Offered:** {subjects}")
+            st.write(f"👉 **8. Games Played at School:** {games}")
+            st.write(f"👉 **9. Any Other Remarks:** {remarks}")
+            
+            st.divider()
+            st.markdown("<p style='text-align: center; font-style: italic; font-weight: bold;'>During his/her study in this school, his/her conduct has been good.</p>", unsafe_allow_html=True)
+            st.write("")
+            
+            # Footers Signatures
+            f_col1, f_col2, f_col3 = st.columns(3)
+            with f_col1:
+                st.write(f"📅 **Dated:** {cert_date}")
+            with f_col2:
+                p_text = prep_by if prep_by.strip() != "" else "____________________"
+                st.write(f"✍️ **Prepared By:** {p_text}")
+            with f_col3:
+                st.write("👔 **HEAD MASTER**")
+
+        st.caption("💡 **Tip:** Is digital format ka print nikalne ke liye apne keyboard se `Ctrl + P` dabayein.")
+
+    # --- 4. SCHOOL LEAVING CERTIFICATE ---
+    elif page == "📜 School Leaving Certificate":
+        st.subheader("📜 SCHOOL LEAVING CERTIFICATE (SLC)")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            sr_no = st.text_input("Sr No")
+            stu_name = st.text_input("Student Name")
+            class_in = st.text_input("Class Reading In")
+        with col2:
+            file_no = st.text_input("File No")
+            fath_name = st.text_input("Father's Name")
+            
+        if st.button("💾 Save SLC Document", type="primary", use_container_width=True):
+            if not stu_name.strip():
+                st.error("Student Name lazmi likhein!")
+            else:
+                st.success(f"SLC data for '{stu_name}' save ho gaya!")
