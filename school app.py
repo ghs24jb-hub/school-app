@@ -9,12 +9,17 @@ if "password" not in st.session_state:
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
-# --- AUTOMATIC INJECTION FOR CLEAN PRINTING ---
+# --- AUTOMATIC INJECTION FOR CLEAN PRINTING & BORDER FIXES ---
 st.markdown(
     """
     <style>
+    /* Live layout me se right side ki line aur extra border space khatam karne ke liye */
+    iframe, [data-testid="stMarkdownContainer"] {
+        overflow: hidden !important;
+    }
+    
     @media print {
-        /* Print ke waqt baqi saari fuzool cheezon ko chupane ke liye */
+        /* Print ke waqt sidebar aur input fields ko mukammal chupanay ke liye */
         [data-testid="stSidebar"], .stHeader, footer, .stDeployButton, 
         div.stButton:not(.print-btn-wrap), div[class*="stTextInput"], div[class*="stSelectbox"], 
         h2, h3, .stMarkdown:not(:has(.printable-certificate)) {
@@ -28,7 +33,7 @@ st.markdown(
             padding: 0 !important;
             margin: 0 !important;
         }
-        /* Sirf certificate wale card ko poore page par print karne ke liye */
+        /* Certificate card rules - forces right line removal */
         .printable-certificate {
             display: block !important;
             visibility: visible !important;
@@ -39,6 +44,7 @@ st.markdown(
             width: 100% !important;
             box-sizing: border-box !important;
             page-break-inside: avoid !important;
+            overflow: hidden !important;
         }
         .printable-certificate * {
             color: black !important;
@@ -115,7 +121,7 @@ else:
 
         st.divider()
         
-        # Custom Print Button Trick using JS command window.print()
+        # JS Print Trigger
         st.markdown(
             '<div class="print-btn-wrap">'
             '   <button onclick="window.print()" style="'
@@ -127,9 +133,9 @@ else:
             unsafe_allow_html=True
         )
 
-        # VIP Plaque Layout Structure
+        # VIP Design Layout with clean text and Underlined Points
         preview_text = (
-            "<div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black;'>\n"
+            "<div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black; overflow: hidden;'>\n"
             "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>\n"
             "       <span style='float: left;'>Roll No. " + roll_no + "</span>\n"
             "       <span style='float: right;'>Regd. No. " + regd_no + "</span>\n"
@@ -143,16 +149,16 @@ else:
             "       <span style='border: 2px solid black; padding: 6px 30px; font-size: 15px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>\n"
             "   </div>\n"
             "   <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 20px; color: black;'>——— This is to Certify that: ———</div>\n"
-            "   <div style='font-size: 15px; line-height: 2; margin-bottom: 20px; text-align: justify; color: black;'>\n"
-            "       1. Name of Candidate: <b>" + c_name + "</b><br>\n"
-            "       2. Father's Name: <b>" + f_name_cert + "</b><br>\n"
-            "       3. Residence: " + residence + "<br>\n"
-            "       4. Examination Passed: <b>" + exam_passed + "</b><br>\n"
-            "       5. Marks Obtained: " + marks + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GRADE:</b> " + grade + "<br>\n"
-            "       6. Moral Character: <b>" + moral + "</b><br>\n"
-            "       7. Subjects Offered: " + subjects + "<br>\n"
-            "       8. Games Played at School: " + games + "<br>\n"
-            "       9. Any Other Remarks: " + remarks + "\n"
+            "   <div style='font-size: 15px; line-height: 2.2; margin-bottom: 20px; text-align: justify; color: black;'>\n"
+            "       <u>1. Name of Candidate: <b>" + c_name + "</b></u><br>\n"
+            "       <u>2. Father's Name: <b>" + f_name_cert + "</b></u><br>\n"
+            "       <u>3. Residence: " + residence + "</u><br>\n"
+            "       <u>4. Examination Passed: <b>" + exam_passed + "</b></u><br>\n"
+            "       <u>5. Marks Obtained: " + marks + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GRADE:</b> " + grade + "</u><br>\n"
+            "       <u>6. Moral Character: <b>" + moral + "</b></u><br>\n"
+            "       <u>7. Subjects Offered: " + subjects + "</u><br>\n"
+            "       <u>8. Games Played at School: " + games + "</u><br>\n"
+            "       <u>9. Any Other Remarks: " + remarks + "</u>\n"
             "   </div>\n"
             "   <div style='text-align: center; font-style: italic; font-size: 14px; margin: 20px 0; font-weight: bold; color: black;'>During his/her study in this school, his/her conduct has been good.</div>\n"
             "   <div style='margin-top: 50px; font-size: 13px; font-weight: bold; overflow: hidden; color: black;'>\n"
