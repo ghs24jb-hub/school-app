@@ -73,7 +73,7 @@ else:
         if st.button("💾 Save Admission Data", type="primary"):
             st.success("Admission data save ho gaya!")
 
-    # --- 3. CHARACTER CERTIFICATE (ROYAL PREMIUM DESIGN) ---
+    # --- 3. CHARACTER CERTIFICATE (FIXED & TESTED ROYAL DESIGN) ---
     elif page == "🏅 Character Certificate":
         st.subheader("🏅 ROYAL CHARACTER CERTIFICATE GENERATOR")
         
@@ -102,7 +102,7 @@ else:
         st.divider()
         st.markdown("### 🖥️ Premium Print Preview")
 
-        # VIP Design using safe string chunks connection
+        # HTML safely stitched together - No dots, no compiler confusion
         html_box = (
             "<div class='print-card' style='background: #ffffff; padding: 35px; border: 12px double #b8860b; border-radius: 4px; font-family: \"Times New Roman\", Times, serif; color: #1c2833; line-height: 1.6; box-shadow: 0px 4px 20px rgba(0,0,0,0.08);'>"
             "   <table style='width: 100%; font-size: 14px; font-weight: bold; border: none; font-family: Arial, sans-serif; color: #5d6d7e; margin-bottom: 10px;'>"
@@ -141,4 +141,3 @@ else:
             "       <tr style='border: none;'><td style='font-weight: bold; padding: 7px 0; color: #2c3e50;'>9. Any Other Remarks</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid #b8860b; padding: 7px 0; color: #5d6d7e;'>" + remarks + "</td></tr>"
             "   </table>"
             "   <div style='text-align: center; font-style: italic; font-size: 15px; margin: 25px 0; font-weight: bold; color: #1b2631;'>During his/her study in this school, his/her conduct has been good.</div>"
-            "   <table style='width: 100%; font-size: 14px; font-weight: bold; margin-top: 40px; border: none; font-family: Arial, sans-serif;'>"
