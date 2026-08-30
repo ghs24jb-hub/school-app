@@ -9,20 +9,21 @@ if "password" not in st.session_state:
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
-# --- AUTOMATIC INJECTION FOR CLEAN PRINTING & BORDER FIXES ---
+# --- AUTOMATIC INJECTION FOR CLEAN PRINTING & NO SCROLLBARS ---
 st.markdown(
     """
     <style>
-    /* Live layout me se right side ki line aur extra border space khatam karne ke liye */
-    iframe, [data-testid="stMarkdownContainer"] {
-        overflow: hidden !important;
+    /* Screen aur print dono me se right side ki extra vertical lines khatam karne ke liye */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stMarkdownContainer"] {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
     }
     
     @media print {
-        /* Print ke waqt sidebar aur input fields ko mukammal chupanay ke liye */
+        /* Print ke waqt sidebar, input boxes, headers aur hints ko hide karne ke liye */
         [data-testid="stSidebar"], .stHeader, footer, .stDeployButton, 
         div.stButton:not(.print-btn-wrap), div[class*="stTextInput"], div[class*="stSelectbox"], 
-        h2, h3, .stMarkdown:not(:has(.printable-certificate)) {
+        h2, h3, .stMarkdown:not(:has(.printable-certificate)), .print-action-trigger {
             display: none !important;
             height: 0px !important;
             padding: 0 !important;
@@ -33,7 +34,7 @@ st.markdown(
             padding: 0 !important;
             margin: 0 !important;
         }
-        /* Certificate card rules - forces right line removal */
+        /* Certificate card container padding aur boundary constraints */
         .printable-certificate {
             display: block !important;
             visibility: visible !important;
@@ -93,7 +94,7 @@ else:
         if st.button("💾 Save Admission Data", type="primary"):
             st.success("Admission data save ho gaya!")
 
-    # --- 3. CHARACTER CERTIFICATE ---
+    # --- 3. CHARACTER CERTIFICATE (EXACT SPACING & UNDERLINES) ---
     elif page == "🏅 Character Certificate":
         st.subheader("🏅 ROYAL CHARACTER CERTIFICATE GENERATOR")
         
@@ -121,19 +122,20 @@ else:
 
         st.divider()
         
-        # JS Print Trigger
+        # Bada Interactive Print Button
         st.markdown(
-            '<div class="print-btn-wrap">'
+            '<div class="print-action-trigger" style="margin-bottom: 25px;">'
             '   <button onclick="window.print()" style="'
-            '       background-color: #1b2631; color: white; padding: 10px 24px; '
-            '       font-size: 16px; border: none; border-radius: 4px; cursor: pointer; '
-            '       width: 100%; font-weight: bold; margin-bottom: 20px;'
-            '   ">🖨️ Print Certificate Now</button>'
+            '       background: linear-gradient(135deg, #1b2631 0%, #2c3e50 100%); '
+            '       color: white; padding: 14px 30px; font-size: 18px; border: none; '
+            '       border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; '
+            '       box-shadow: 0 4px 15px rgba(0,0,0,0.15); text-transform: uppercase; letter-spacing: 1px;'
+            '   ">🖨️ Click Here to Print Certificate</button>'
             '</div>',
             unsafe_allow_html=True
         )
 
-        # VIP Design Layout with clean text and Underlined Points
+        # VIP Design Layout with text-only Underlines that run till the end of the container
         preview_text = (
             "<div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black; overflow: hidden;'>\n"
             "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>\n"
@@ -148,39 +150,24 @@ else:
             "   <div style='text-align: center; margin: 15px 0;'>\n"
             "       <span style='border: 2px solid black; padding: 6px 30px; font-size: 15px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>\n"
             "   </div>\n"
-            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 20px; color: black;'>——— This is to Certify that: ———</div>\n"
-            "   <div style='font-size: 15px; line-height: 2.2; margin-bottom: 20px; text-align: justify; color: black;'>\n"
-            "       <u>1. Name of Candidate: <b>" + c_name + "</b></u><br>\n"
-            "       <u>2. Father's Name: <b>" + f_name_cert + "</b></u><br>\n"
-            "       <u>3. Residence: " + residence + "</u><br>\n"
-            "       <u>4. Examination Passed: <b>" + exam_passed + "</b></u><br>\n"
-            "       <u>5. Marks Obtained: " + marks + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GRADE:</b> " + grade + "</u><br>\n"
-            "       <u>6. Moral Character: <b>" + moral + "</b></u><br>\n"
-            "       <u>7. Subjects Offered: " + subjects + "</u><br>\n"
-            "       <u>8. Games Played at School: " + games + "</u><br>\n"
-            "       <u>9. Any Other Remarks: " + remarks + "</u>\n"
-            "   </div>\n"
-            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin: 20px 0; font-weight: bold; color: black;'>During his/her study in this school, his/her conduct has been good.</div>\n"
-            "   <div style='margin-top: 50px; font-size: 13px; font-weight: bold; overflow: hidden; color: black;'>\n"
-            "       <div style='float: left; width: 40%;'>\n"
-            "           Dated: <u>" + cert_date + "</u><br>\n"
-            "           Prepared By: <span style='font-weight: normal;'>" + p_text + "</span>\n"
-            "       </div>\n"
-            "       <div style='float: left; width: 20%; text-align: center;'>\n"
-            "           <div style='width: 55px; height: 55px; border: 1px dashed #b8860b; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: gray; margin: 0 auto;'>Stamp</div>\n"
-            "       </div>\n"
-            "       <div style='float: right; width: 40%; text-align: right; margin-top: 20px; color: black;'>\n"
-            "           HEAD MASTER\n"
-            "       </div>\n"
-            "   </div>\n"
-            "</div>"
-        )
-        
-        st.markdown(preview_text, unsafe_allow_html=True)
-
-    # --- 4. SCHOOL LEAVING CERTIFICATE ---
-    elif page == "📜 School Leaving Certificate":
-        st.subheader("📜 SCHOOL LEAVING CERTIFICATE (SLC)")
-        stu_name = st.text_input("Student Name")
-        if st.button("💾 Save SLC Data", type="primary"):
-            st.success("SLC saved!")
+            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 25px; color: black;'>——— This is to Certify that: ———</div>\n"
+            
+            # 1 to 9 points data table format for perfect underlining that spans from value to end of row
+            "   <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>\n"
+            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 16px; padding: 6px 0;'>" + c_name + "</td></tr>\n"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>" + f_name_cert + "</td></tr>\n"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 6px 0;'>" + residence + "</td></tr>\n"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 6px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>" + exam_passed + "</td></tr>\n"
+            "   </table>\n"
+            
+            "   <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 20px; color: black;'>\n"
+            "       <tr style='border: none;'>"
+            "           <td style='width: 32%; font-weight: bold; padding: 6px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>"
+            "           <td style='width: 32%; border-bottom: 1px solid black; padding: 6px 0;'>" + marks + "</td>"
+            "           <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>"
+            "           <td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0;'>" + grade + "</td>"
+            "       </tr>"
+            "   </table>\n"
+            
+            "   <table style='width: 100%; font-size: 15px; border-collapse: collapse; border: none; margin-bottom: 25px; color: black;'>\n"
+            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 6px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 6px 0; color: green;'>" + moral + "</td></tr>\n"
