@@ -149,7 +149,7 @@ else:
 
         st.markdown("### 🖥️ Premium Print Preview")
 
-        # Pure Clean Text String block (Safe from Python parser bracket crashing bugs)
+        # HTML Structure Template
         template_html = """
         <div class='printable-a4-card' style='border: 5px double #b8860b; padding: 30px; background: white; font-family: Arial; color: black; overflow: hidden;'>
             <div style='font-size: 14px; font-weight: bold; margin-bottom: 20px; overflow: hidden; color: black;'>
