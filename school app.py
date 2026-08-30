@@ -11,60 +11,52 @@ if "logged_in" not in st.session_state:
 
 # --- AUTOMATIC INJECTION FOR PERFECT A4 PRINTING ---
 st.markdown(
-    """
-    <style>
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stMarkdownContainer"] {
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-    }
-    
-    @media print {
-        @page {
-            size: A4 portrait !important;
-            margin: 15mm !important;
-        }
-        
-        [data-testid="stSidebar"], .stHeader, footer, .stDeployButton, 
-        div.stButton, div[class*="stTextInput"], div[class*="stSelectbox"], 
-        h2, h3, hr, caption, .print-action-box, .stMarkdown:not(:has(.printable-a4-card)) {
-            display: none !important;
-            height: 0px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        
-        .main .block-container {
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            width: 100% !important;
-        }
-        
-        div[data-testid="stBlock"]:has(.printable-a4-card) {
-            display: block !important;
-            visibility: visible !important;
-            width: 100% !important;
-        }
-        
-        .printable-a4-card {
-            display: block !important;
-            visibility: visible !important;
-            border: 8px double #b8860b !important;
-            padding: 40px !important;
-            background: white !important;
-            color: black !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-            page-break-inside: avoid !important;
-            overflow: hidden !important;
-        }
-        
-        .printable-a4-card * {
-            color: black !important;
-        }
-    }
-    </style>
-    """,
+    "<style>"
+    "html, body, [data-testid='stAppViewContainer'], [data-testid='stMarkdownContainer'] {"
+    "    overflow-x: hidden !important;"
+    "    overflow-y: auto !important;"
+    "}"
+    "@media print {"
+    "    @page {"
+    "        size: A4 portrait !important;"
+    "        margin: 15mm !important;"
+    "    }"
+    "    [data-testid='stSidebar'], .stHeader, footer, .stDeployButton, "
+    "    div.stButton, div[class*='stTextInput'], div[class*='stSelectbox'], "
+    "    h2, h3, hr, caption, .print-action-box, .stMarkdown:not(:has(.printable-a4-card)) {"
+    "        display: none !important;"
+    "        height: 0px !important;"
+    "        padding: 0 !important;"
+    "        margin: 0 !important;"
+    "    }"
+    "    .main .block-container {"
+    "        max-width: 100% !important;"
+    "        padding: 0 !important;"
+    "        margin: 0 !important;"
+    "        width: 100% !important;"
+    "    }"
+    "    div[data-testid='stBlock']:has(.printable-a4-card) {"
+    "        display: block !important;"
+    "        visibility: visible !important;"
+    "        width: 100% !important;"
+    "    }"
+    "    .printable-a4-card {"
+    "        display: block !important;"
+    "        visibility: visible !important;"
+    "        border: 8px double #b8860b !important;"
+    "        padding: 40px !important;"
+    "        background: white !important;"
+    "        color: black !important;"
+    "        width: 100% !important;"
+    "        box-sizing: border-box !important;"
+    "        page-break-inside: avoid !important;"
+    "        overflow: hidden !important;"
+    "    }"
+    "    .printable-a4-card * {"
+    "        color: black !important;"
+    "    }"
+    "}"
+    "</style>",
     unsafe_allow_html=True
 )
 
@@ -149,39 +141,34 @@ else:
 
         st.markdown("### 🖥️ Premium Print Preview")
 
-        # HTML Structure Template
-        template_html = """
-        <div class='printable-a4-card' style='border: 5px double #b8860b; padding: 30px; background: white; font-family: Arial; color: black; overflow: hidden;'>
-            <div style='font-size: 14px; font-weight: bold; margin-bottom: 20px; overflow: hidden; color: black;'>
-                <span style='float: left;'>Roll No. [ROLL]</span>
-                <span style='float: right;'>Regd. No. [REGD]</span>
-            </div>
-            <div style='text-align: center; margin-bottom: 25px;'>
-                <h1 style='margin: 0; font-size: 28px; font-weight: bold; color: black; font-family: "Times New Roman", Times, serif;'>GOVT. HIGH SCHOOL 24 J.B.</h1>
-                <p style='margin: 4px 0 0 0; font-size: 14px; color: gray;'>District Faisalabad.</p>
-                <div style='width: 140px; height: 2px; background: #b8860b; margin: 10px auto 0 auto;'></div>
-            </div>
-            <div style='text-align: center; margin: 20px 0;'>
-                <span style='border: 2px solid black; padding: 8px 35px; font-size: 16px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>
-            </div>
-            <div style='text-align: center; font-style: italic; font-size: 15px; margin-bottom: 30px; color: black;'>——— This is to Certify that: ———</div>
-            
-            <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 8px; color: black;'>
-                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 10px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 17px; padding: 10px 0;'>[CNAME]</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>[FNAME]</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>[RESIDENCE]</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>[EXAM]</td></tr>
-            </table>
-            
-            <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 8px; color: black;'>
-                <tr style='border: none;'>
-                    <td style='width: 32%; font-weight: bold; padding: 10px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>
-                    <td style='width: 32%; border-bottom: 1px solid black; padding: 10px 0;'>[MARKS]</td>
-                    <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>
-                    <td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>[GRADE]</td>
-                </tr>
-            </table>
-            
-            <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 30px; color: black;'> 
-                <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 10px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0; color: green;'>[MORAL]</td></tr>
-                <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>7. Subjects Offered</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 10px 0;'>[SUBJECTS]</td></tr>
+        # Fixed Stable HTML construction using standard python single strings connection
+        preview_text = (
+            "<div class='printable-a4-card' style='border: 5px double #b8860b; padding: 30px; background: white; font-family: Arial; color: black; overflow: hidden;'>"
+            "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 20px; overflow: hidden; color: black;'>"
+            "       <span style='float: left;'>Roll No. " + str(roll_no) + "</span>"
+            "       <span style='float: right;'>Regd. No. " + str(regd_no) + "</span>"
+            "   </div>"
+            "   <div style='text-align: center; margin-bottom: 25px;'>""<h1 style='margin: 0; font-size: 28px; font-weight: bold; color: black; font-family: \"Times New Roman\", Times, serif;'>GOVT. HIGH SCHOOL 24 J.B.</h1>"
+            "       <p style='margin: 4px 0 0 0; font-size: 14px; color: gray;'>District Faisalabad.</p>"
+            "       <div style='width: 140px; height: 2px; background: #b8860b; margin: 10px auto 0 auto;'></div>"
+            "   </div>"
+            "   <div style='text-align: center; margin: 20px 0;'>"
+            "       <span style='border: 2px solid black; padding: 8px 35px; font-size: 16px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>"
+            "   </div>"
+            "   <div style='text-align: center; font-style: italic; font-size: 15px; margin-bottom: 30px; color: black;'>——— This is to Certify that: ———</div>"
+            "   <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 8px; color: black;'>"
+            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 10px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 17px; padding: 10px 0;'>" + str(c_name) + "</td></tr>"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + str(f_name_cert) + "</td></tr>"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + str(residence) + "</td></tr>"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + str(exam_passed) + "</td></tr>"
+            "   </table>"
+            "   <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 8px; color: black;'>"
+            "       <tr style='border: none;'>"
+            "           <td style='width: 32%; font-weight: bold; padding: 10px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>"
+            "           <td style='width: 32%; border-bottom: 1px solid black; padding: 10px 0;'>" + str(marks) + "</td>"
+            "           <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>"
+            "           <td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + str(grade) + "</td>"
+            "       </tr>"
+            "   </table>"
+            "   <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 30px; color: black;'>"
+            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 10px 0;'>6. Moral Character</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0; color: green;'>" + str(moral) + "</td></tr>"
