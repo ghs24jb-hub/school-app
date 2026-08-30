@@ -10,14 +10,14 @@ if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
 # --- AUTOMATIC INJECTION FOR CLEAN PRINTING ---
-# Yeh dynamic rules print dabate hi fuzool screen elements ko gayab kar denge
 st.markdown(
     """
     <style>
     @media print {
-        header, footer, .stDeployButton, [data-testid="stSidebar"], 
-        div.stButton, div[data-testid="stBlock"] [class*="stTextInput"], 
-        div[data-testid="stBlock"] [class*="stSelectbox"], h2, h3, .stMarkdown:not(:has(.printable-certificate)) {
+        /* Print ke waqt baqi saari fuzool cheezon ko chupane ke liye */
+        [data-testid="stSidebar"], .stHeader, footer, .stDeployButton, 
+        div.stButton:not(.print-btn-wrap), div[class*="stTextInput"], div[class*="stSelectbox"], 
+        h2, h3, .stMarkdown:not(:has(.printable-certificate)) {
             display: none !important;
             height: 0px !important;
             padding: 0 !important;
@@ -28,6 +28,7 @@ st.markdown(
             padding: 0 !important;
             margin: 0 !important;
         }
+        /* Sirf certificate wale card ko poore page par print karne ke liye */
         .printable-certificate {
             display: block !important;
             visibility: visible !important;
@@ -113,53 +114,63 @@ else:
         p_text = prep_by if prep_by.strip() != "" else "____________________"
 
         st.divider()
-        st.markdown("### 🖥️ Premium Print Preview")
+        
+        # Custom Print Button Trick using JS command window.print()
+        st.markdown(
+            '<div class="print-btn-wrap">'
+            '   <button onclick="window.print()" style="'
+            '       background-color: #1b2631; color: white; padding: 10px 24px; '
+            '       font-size: 16px; border: none; border-radius: 4px; cursor: pointer; '
+            '       width: 100%; font-weight: bold; margin-bottom: 20px;'
+            '   ">🖨️ Print Certificate Now</button>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
-        # Clean class injected structure for perfect formatting isolation
+        # VIP Plaque Layout Structure
         preview_text = (
-            "<div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black;'>"
-            "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>"
-            "       <span style='float: left;'>Roll No. " + roll_no + "</span>"
-            "       <span style='float: right;'>Regd. No. " + regd_no + "</span>"
-            "   </div>"
-            "   <div style='text-align: center; margin-bottom: 20px;'>"
-            "       <h1 style='margin: 0; font-size: 26px; font-weight: bold; color: black;'>GOVT. HIGH SCHOOL 24 J.B.</h1>"
-            "       <p style='margin: 2px 0 0 0; font-size: 13px; color: gray;'>District Faisalabad.</p>"
-            "       <div style='width: 120px; height: 2px; background: #b8860b; margin: 8px auto 0 auto;'></div>"
-            "   </div>"
-            "   <div style='text-align: center; margin: 15px 0;'>"
-            "       <span style='border: 2px solid black; padding: 6px 30px; font-size: 15px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>"
-            "   </div>"
-            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 20px; color: black;'>——— This is to Certify that: ———</div>"
-            "   <div style='font-size: 15px; line-height: 2; margin-bottom: 20px; text-align: justify; color: black;'>"
-            "       1. Name of Candidate: <b>" + c_name + "</b><br>"
-            "       2. Father's Name: <b>" + f_name_cert + "</b><br>"
-            "       3. Residence: " + residence + "<br>"
-            "       4. Examination Passed: <b>" + exam_passed + "</b><br>"
-            "       5. Marks Obtained: " + marks + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GRADE:</b> " + grade + "<br>"
-            "       6. Moral Character: <b>" + moral + "</b><br>"
-            "       7. Subjects Offered: " + subjects + "<br>"
-            "       8. Games Played at School: " + games + "<br>"
-            "       9. Any Other Remarks: " + remarks + ""
-            "   </div>"
-            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin: 20px 0; font-weight: bold; color: black;'>During his/her study in this school, his/her conduct has been good.</div>"
-            "   <div style='margin-top: 50px; font-size: 13px; font-weight: bold; overflow: hidden; color: black;'>"
-            "       <div style='float: left; width: 40%;'>"
-            "           Dated: <u>" + cert_date + "</u><br>"
-            "           Prepared By: <span style='font-weight: normal;'>" + p_text + "</span>"
-            "       </div>"
-            "       <div style='float: left; width: 20%; text-align: center;'>"
-            "           <div style='width: 55px; height: 55px; border: 1px dashed #b8860b; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: gray; margin: 0 auto;'>Stamp</div>"
-            "       </div>"
-            "       <div style='float: right; width: 40%; text-align: right; margin-top: 20px; color: black;'>"
-            "           HEAD MASTER"
-            "       </div>"
-            "   </div>"
+            "<div class='printable-certificate' style='border: 5px double #b8860b; padding: 25px; background: white; font-family: Arial; color: black;'>\n"
+            "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 15px; overflow: hidden; color: black;'>\n"
+            "       <span style='float: left;'>Roll No. " + roll_no + "</span>\n"
+            "       <span style='float: right;'>Regd. No. " + regd_no + "</span>\n"
+            "   </div>\n"
+            "   <div style='text-align: center; margin-bottom: 20px;'>\n"
+            "       <h1 style='margin: 0; font-size: 26px; font-weight: bold; color: black;'>GOVT. HIGH SCHOOL 24 J.B.</h1>\n"
+            "       <p style='margin: 2px 0 0 0; font-size: 13px; color: gray;'>District Faisalabad.</p>\n"
+            "       <div style='width: 120px; height: 2px; background: #b8860b; margin: 8px auto 0 auto;'></div>\n"
+            "   </div>\n"
+            "   <div style='text-align: center; margin: 15px 0;'>\n"
+            "       <span style='border: 2px solid black; padding: 6px 30px; font-size: 15px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>\n"
+            "   </div>\n"
+            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin-bottom: 20px; color: black;'>——— This is to Certify that: ———</div>\n"
+            "   <div style='font-size: 15px; line-height: 2; margin-bottom: 20px; text-align: justify; color: black;'>\n"
+            "       1. Name of Candidate: <b>" + c_name + "</b><br>\n"
+            "       2. Father's Name: <b>" + f_name_cert + "</b><br>\n"
+            "       3. Residence: " + residence + "<br>\n"
+            "       4. Examination Passed: <b>" + exam_passed + "</b><br>\n"
+            "       5. Marks Obtained: " + marks + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GRADE:</b> " + grade + "<br>\n"
+            "       6. Moral Character: <b>" + moral + "</b><br>\n"
+            "       7. Subjects Offered: " + subjects + "<br>\n"
+            "       8. Games Played at School: " + games + "<br>\n"
+            "       9. Any Other Remarks: " + remarks + "\n"
+            "   </div>\n"
+            "   <div style='text-align: center; font-style: italic; font-size: 14px; margin: 20px 0; font-weight: bold; color: black;'>During his/her study in this school, his/her conduct has been good.</div>\n"
+            "   <div style='margin-top: 50px; font-size: 13px; font-weight: bold; overflow: hidden; color: black;'>\n"
+            "       <div style='float: left; width: 40%;'>\n"
+            "           Dated: <u>" + cert_date + "</u><br>\n"
+            "           Prepared By: <span style='font-weight: normal;'>" + p_text + "</span>\n"
+            "       </div>\n"
+            "       <div style='float: left; width: 20%; text-align: center;'>\n"
+            "           <div style='width: 55px; height: 55px; border: 1px dashed #b8860b; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: gray; margin: 0 auto;'>Stamp</div>\n"
+            "       </div>\n"
+            "       <div style='float: right; width: 40%; text-align: right; margin-top: 20px; color: black;'>\n"
+            "           HEAD MASTER\n"
+            "       </div>\n"
+            "   </div>\n"
             "</div>"
         )
         
         st.markdown(preview_text, unsafe_allow_html=True)
-        st.caption("💡 **Tip:** Is layout ka single page clean print nikalne ke liye browser mein shortcut key `Ctrl + P` dabayein.")
 
     # --- 4. SCHOOL LEAVING CERTIFICATE ---
     elif page == "📜 School Leaving Certificate":
