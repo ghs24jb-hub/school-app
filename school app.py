@@ -9,6 +9,68 @@ if "password" not in st.session_state:
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
+# --- AUTOMATIC INJECTION FOR PERFECT A4 PRINTING ---
+st.markdown(
+    """
+    <style>
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stMarkdownContainer"] {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+    
+    @media print {
+        /* Force A4 Page Settings */
+        @page {
+            size: A4 portrait !important;
+            margin: 15mm !important;
+        }
+        
+        /* Hide everything except the certificate box */
+        [data-testid="stSidebar"], .stHeader, footer, .stDeployButton, 
+        div.stButton, div[class*="stTextInput"], div[class*="stSelectbox"], 
+        h2, h3, hr, caption, .print-action-box, .stMarkdown:not(:has(.printable-a4-card)) {
+            display: none !important;
+            height: 0px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        /* Main area stretching */
+        .main .block-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+        }
+        
+        /* Absolute visibility enforcement for certificate layout */
+        div[data-testid="stBlock"]:has(.printable-a4-card) {
+            display: block !important;
+            visibility: visible !important;
+            width: 100% !important;
+        }
+        
+        .printable-a4-card {
+            display: block !important;
+            visibility: visible !important;
+            border: 8px double #b8860b !important;
+            padding: 40px !important;
+            background: white !important;
+            color: black !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            page-break-inside: avoid !important;
+        }
+        
+        .printable-a4-card * {
+            color: black !important;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # --- SYSTEM LOGIN ---
 if not st.session_state["logged_in"]:
     st.markdown("<h2 style='text-align: center;'>🏫 SYSTEM LOGIN</h2>", unsafe_allow_html=True)
@@ -47,7 +109,7 @@ else:
         if st.button("💾 Save Admission Data", type="primary"):
             st.success("Admission data save ho gaya!")
 
-    # --- 3. CHARACTER CERTIFICATE (100% SAFE NATIVE LAYOUT) ---
+    # --- 3. CHARACTER CERTIFICATE (A4 PERFECT FORMAT) ---
     elif page == "🏅 Character Certificate":
         st.subheader("🏅 ROYAL CHARACTER CERTIFICATE GENERATOR")
         
@@ -76,48 +138,51 @@ else:
         st.divider()
         
         # Bada Interactive Print Button
-        if st.button("🖨️ Click Here to Print Certificate", type="primary", use_container_width=True):
-            st.warning("Printers active karne ke liye keyboard se 'Ctrl + P' dabayein. Yeh card automatic page par fit ho jayega.")
+        st.markdown(
+            '<div class="print-action-box" style="margin-bottom: 25px;">'
+            '   <button onclick="window.print()" style="'
+            '       background: linear-gradient(135deg, #1b2631 0%, #2c3e50 100%); '
+            '       color: white; padding: 14px 30px; font-size: 18px; border: none; '
+            '       border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; '
+            '       box-shadow: 0 4px 15px rgba(0,0,0,0.15); text-transform: uppercase; letter-spacing: 1px;'
+            '   ">🖨️ Click Here to Print Certificate</button>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
         st.markdown("### 🖥️ Premium Print Preview")
 
-        # Native Box design without HTML strings conflicts
-        with st.container(border=True):
-            st.write(f"**Roll No.** {roll_no}  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Regd. No.** {regd_no}")
-            st.markdown("<h1 style='text-align: center; color: black; font-family: serif; margin-bottom:0;'>GOVT. HIGH SCHOOL 24 J.B.</h1>", unsafe_allow_html=True)
-            st.markdown("<p style='text-align: center; color: gray; margin-top:0;'>District Faisalabad.</p>", unsafe_allow_html=True)
-            st.markdown("<h3 style='text-align: center; border: 2px solid black; padding: 5px; margin: 15px 0;'>CHARACTER CERTIFICATE</h3>", unsafe_allow_html=True)
-            st.markdown("<p style='text-align: center; font-style: italic;'>——— This is to Certify that: ———</p>", unsafe_allow_html=True)
+        # Stable and Robust Layout with Underlined table rows spanning perfectly to the end of A4 width
+        preview_text = (
+            "<div class='printable-a4-card' style='border: 5px double #b8860b; padding: 30px; background: white; font-family: Arial; color: black; overflow: hidden;'>"
+            "   <div style='font-size: 14px; font-weight: bold; margin-bottom: 20px; overflow: hidden; color: black;'>"
+            "       <span style='float: left;'>Roll No. " + roll_no + "</span>"
+            "       <span style='float: right;'>Regd. No. " + regd_no + "</span>"
+            "   </div>"
+            "   <div style='text-align: center; margin-bottom: 25px;'>"
+            "       <h1 style='margin: 0; font-size: 28px; font-weight: bold; color: black; font-family: \"Times New Roman\", Times, serif;'>GOVT. HIGH SCHOOL 24 J.B.</h1>"
+            "       <p style='margin: 4px 0 0 0; font-size: 14px; color: gray;'>District Faisalabad.</p>"
+            "       <div style='width: 140px; height: 2px; background: #b8860b; margin: 10px auto 0 auto;'></div>"
+            "   </div>"
+            "   <div style='text-align: center; margin: 20px 0;'>"
+            "       <span style='border: 2px solid black; padding: 8px 35px; font-size: 16px; font-weight: bold; color: black; display: inline-block;'>CHARACTER CERTIFICATE</span>"
+            "   </div>"
+            "   <div style='text-align: center; font-style: italic; font-size: 15px; margin-bottom: 30px; color: black;'>——— This is to Certify that: ———</div>"
             
-            # 1 to 9 Underlined lines extending to the end
-            st.markdown(f"**1. Name of Candidate:** {c_name}  \n________________________________________________________________________________________")
-            st.markdown(f"**2. Father's Name:** {f_name_cert}  \n________________________________________________________________________________________")
-            st.markdown(f"**3. Residence:** {residence}  \n________________________________________________________________________________________")
-            st.markdown(f"**4. Examination Passed:** {exam_passed}  \n________________________________________________________________________________________")
-            st.markdown(f"**5. Marks Obtained:** {marks} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **GRADE:** {grade}  \n________________________________________________________________________________________")
-            st.markdown(f"**6. Moral Character:** {moral}  \n________________________________________________________________________________________")
-            st.markdown(f"**7. Subjects Offered:** {subjects}  \n________________________________________________________________________________________")
-            st.markdown(f"**8. Games Played at School:** {games}  \n________________________________________________________________________________________")
-            st.markdown(f"**9. Any Other Remarks:** {remarks}  \n________________________________________________________________________________________")
+            "   <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 8px; color: black;'>"
+            "       <tr style='border: none;'><td style='width: 32%; font-weight: bold; padding: 10px 0;'>1. Name of Candidate</td><td style='width: 3%; font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; font-style: italic; font-size: 17px; padding: 10px 0;'>" + c_name + "</td></tr>"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>2. Father's Name</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + f_name_cert + "</td></tr>"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>3. Residence</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; padding: 10px 0;'>" + residence + "</td></tr>"
+            "       <tr style='border: none;'><td style='font-weight: bold; padding: 10px 0;'>4. Examination Passed</td><td style='font-weight: bold;'>:</td><td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + exam_passed + "</td></tr>"
+            "   </table>"
             
-            st.write("")
-            st.markdown("<p style='text-align: center; font-style: italic; font-weight: bold;'>During his/her study in this school, his/her conduct has been good.</p>", unsafe_allow_html=True)
-            st.write("")
-            st.write("")
+            "   <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 8px; color: black;'>"
+            "       <tr style='border: none;'>"
+            "           <td style='width: 32%; font-weight: bold; padding: 10px 0;'>5. Marks Obtained</td><td style='width: 3%; font-weight: bold;'>:</td>"
+            "           <td style='width: 32%; border-bottom: 1px solid black; padding: 10px 0;'>" + marks + "</td>"
+            "           <td style='width: 13%; font-weight: bold; text-align: center;'>GRADE:</td>"
+            "           <td style='border-bottom: 1px solid black; font-weight: bold; padding: 10px 0;'>" + grade + "</td>"
+            "       </tr>"
+            "   </table>"
             
-            # Bottom row footer
-            f1, f2, f3 = st.columns(3)
-            with f1:
-                st.write(f"**Dated:** {cert_date}")
-                st.write(f"**Prepared By:** {p_text}")
-            with f2:
-                st.markdown("<div style='width: 55px; height: 55px; border: 1px dashed gray; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; color: gray; margin: 0 auto;'>Stamp</div>", unsafe_allow_html=True)
-            with f3:
-                st.markdown("<p style='text-align: right; margin-top: 25px;'>**HEAD MASTER**</p>", unsafe_allow_html=True)
-
-    # --- 4. SCHOOL LEAVING CERTIFICATE ---
-    elif page == "📜 School Leaving Certificate":
-        st.subheader("📜 SCHOOL LEAVING CERTIFICATE (SLC)")
-        stu_name = st.text_input("Student Name")
-        if st.button("💾 Save SLC Data", type="primary"):
-            st.success("SLC saved!")
+            "   <table style='width: 100%; font-size: 16px; border-collapse: collapse; border: none; margin-bottom: 30px; color: black;'> "
